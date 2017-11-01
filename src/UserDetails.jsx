@@ -14,11 +14,17 @@ class UserDetails extends Component {
     this.createFriendList = this.createFriendList.bind(this);
   }
 
-  createFriendList = (friendList) => {
+  createFriendList = (friendList, friendListRoutes) => {
     console.log("Currently in createFriendList function");
     if (this.props.user.friends.length > 0) {
       friendList = this.props.user.friends.map( friend => {
-        return <span className=""></span>
+        let friendInfo = this.props.getUserById(friend);
+        friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={conversation} />)} />)
+        return (
+          <li key={friendInfo.id}>
+            <Link to={`hi`}>{friendInfo.username}</Link>
+          </li>
+        )
       });
     }
   }
@@ -32,15 +38,32 @@ class UserDetails extends Component {
     console.log("Rendering <UserDetails />");
     console.log("this.props.user: ", this.props.user);
     var friendList;
-    this.createFriendList(friendList);
+    var friendListRoutes = [];
+    // this.createFriendList(friendList, friendListRoutes);
+    if (this.props.user.friends.length > 0) {
+      friendList = this.props.user.friends.map( friend => {
+        let friendInfo = this.props.getUserById(friend);
+        friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={conversation} />)} />)
+        return (
+          <li key={friendInfo.id}>
+            <Link to={`hi`}>{friendInfo.username}</Link>
+          </li>
+        )
+      });
+    }
     return (
-      <div>
-        <div className="userDetails">
-          <h2>User ID: {this.props.user.id}</h2>
-          <h2>Username: {this.props.user.username}</h2>
-          {friendList}
+      <Router>
+        <div>
+          <div className="userDetails">
+            <h2>User ID: {this.props.user.id}</h2>
+            <h2>Username: {this.props.user.username}</h2>
+            <ul>
+              {friendList}
+            </ul>
+          </div>
+          {friendListRoutes}
         </div>
-      </div>
+      </Router>
     );
   }
 }

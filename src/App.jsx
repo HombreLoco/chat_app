@@ -56,6 +56,14 @@ class App extends Component {
     }
   }
 
+  getUserById = (id) => {
+    for (var user of this.state.allUsers) {
+      if (user.id === id) {
+        return user;
+      }
+    }
+  }
+
   sendMessage = (chatSocket, chatMessage) => {
     console.log("Currently in sendMessage function");
     chatSocket.emit('textMessage', chatMessage);
@@ -90,7 +98,7 @@ class App extends Component {
       <div>
         <ul id="messages"></ul>
         <Login handleUserLogin={this.handleUserLogin} />
-        <UserDetails user={this.state.user}/>
+        <UserDetails user={this.state.user} getUserById={this.getUserById}/>
       </div>
     );
   }
