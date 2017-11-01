@@ -5,29 +5,30 @@ import {
   Link,
   Switch,
   Redirect
-} from 'react-router-dom'
+} from 'react-router-dom';
+import Conversation from './Conversation.jsx';
 
 class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.createFriendList = this.createFriendList.bind(this);
+    // this.createFriendList = this.createFriendList.bind(this);
   }
 
-  createFriendList = (friendList, friendListRoutes) => {
-    console.log("Currently in createFriendList function");
-    if (this.props.user.friends.length > 0) {
-      friendList = this.props.user.friends.map( friend => {
-        let friendInfo = this.props.getUserById(friend);
-        friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={conversation} />)} />)
-        return (
-          <li key={friendInfo.id}>
-            <Link to={`hi`}>{friendInfo.username}</Link>
-          </li>
-        )
-      });
-    }
-  }
+  // createFriendList = (friendList, friendListRoutes) => {
+  //   console.log("Currently in createFriendList function");
+  //   if (this.props.user.friends.length > 0) {
+  //     friendList = this.props.user.friends.map( friend => {
+  //       let friendInfo = this.props.getUserById(friend);
+  //       friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={''} />)} />)
+  //       return (
+  //         <li key={friendInfo.id}>
+  //           <Link to={`hi`}>{friendInfo.username}</Link>
+  //         </li>
+  //       )
+  //     });
+  //   }
+  // }
 
   componentDidMount() {
     console.log("componentDidMount <UserDetails />");
@@ -43,10 +44,10 @@ class UserDetails extends Component {
     if (this.props.user.friends.length > 0) {
       friendList = this.props.user.friends.map( friend => {
         let friendInfo = this.props.getUserById(friend);
-        friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={conversation} />)} />)
+        friendListRoutes.push(<Route path={`/conversation/${friendInfo.id}`} key={friendInfo.id} component={() => (<Conversation user={this.props.user} friend={friendInfo} getConversationMessages={this.props.getConversationMessages}/>)} />)
         return (
           <li key={friendInfo.id}>
-            <Link to={`hi`}>{friendInfo.username}</Link>
+            <Link to={`/conversation/${friendInfo.id}`}>{friendInfo.username}</Link>
           </li>
         )
       });
@@ -57,6 +58,7 @@ class UserDetails extends Component {
           <div className="userDetails">
             <h2>User ID: {this.props.user.id}</h2>
             <h2>Username: {this.props.user.username}</h2>
+            <h2>Friend List: </h2>
             <ul>
               {friendList}
             </ul>

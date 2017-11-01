@@ -6,3 +6,28 @@ h1 {
   width: 300px;
   background-color: #2e77ff
 }
+
+.conversation {
+  width: 300px;
+  height: 200px;
+  background-color: #ff2e62;
+  overflow: scroll;
+}
+
+.conversationHeader {
+  margin-bottom: 20px;
+  background-color: #d40035;
+}
+
+.floatRight {
+  float: right;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.clearFloat {
+  clear: both;
+}
+
