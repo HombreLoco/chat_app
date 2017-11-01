@@ -9,13 +9,24 @@ h1 {
 
 .conversation {
   width: 300px;
+  background-color: #ff2e62;
+}
+
+.conversationHeader {
+  margin-bottom: 10px;
+  padding: 5px 0;
+  background-color: #d40035;
+}
+
+.conversationMessages {
   height: 200px;
   background-color: #ff2e62;
   overflow: scroll;
 }
 
-.conversationHeader {
-  margin-bottom: 20px;
+.conversationNewMessage {
+  margin-top: 10px;
+  padding: 5px 0;
   background-color: #d40035;
 }
 

@@ -36,7 +36,7 @@ class Login extends Component {
             value={this.state.value}
             onChange={this.handleChange}
           />
-          <button id="send" onClick={this.loginByName}>Send</button>
+          <button id="send" onClick={this.loginByName}>Login</button>
         </div>
     );
   }

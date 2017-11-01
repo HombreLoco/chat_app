@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import NewMessage from './NewMessage.jsx';
 
 class Conversation extends Component {
   constructor(props) {
@@ -16,17 +17,13 @@ class Conversation extends Component {
 
     let outputMessages;
     const messages = this.props.getConversationMessages(this.props.user.id, this.props.friend.id);
-    console.log("messages: ", messages)
     if (messages.length > 0) {
       outputMessages = messages.map( message => {
-        console.log("message:", message);
         if (message.sender === this.props.user.id) {
           return (<div key={message.id}><div className="floatRight">{message.content}</div><div className="clearFloat"></div></div>);
         } else {
           return (<div key={message.id}><div className="floatLeft">{message.content}</div><div className="clearFloat"></div></div>);
         }
-        
-
       });
     }
 
@@ -37,7 +34,10 @@ class Conversation extends Component {
           <div className="floatRight">{this.props.user.username}</div>
           <div className="clearFloat"></div>
         </div>
-        {outputMessages}
+        <div className="conversationMessages">
+          {outputMessages}
+        </div>
+        <NewMessage />
       </div>
     );
   }
