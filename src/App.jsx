@@ -8,16 +8,11 @@ class App extends Component {
     super(props);
     this.socket = io("http://localhost:3030");
     this.state = {
+      newestMessage: "",
       user: {
         id: "",
         username: "",
         friends: [],
-        rooms: [
-          {
-            friendId: "",
-            socketId: ""
-          }
-        ]
       },
       allUsers: [
         {
@@ -234,14 +229,19 @@ class App extends Component {
     return messageList;
   }
 
+  receiveMessage = (chatMessage) => {
+    console.log("Currently in receiveMessage function");
+    this.setState({newestMessage: chatMessage});
+  }
+
   sendMessage = (chatSocket, chatMessage) => {
     console.log("Currently in sendMessage function");
     this.socket.emit('textMessage', chatMessage);
     // set value of current chat message to "" (empty string)
   }
 
-  handleMessage = (chatMessage) => {
-    console.log("Currently in handleMessage function");
+  initialMessage = (chatMessage) => {
+    console.log("Currently in initialMessage function");
     this.socket.emit('textMessage', "HELLO ALL CHAT");
   }
 
@@ -254,11 +254,18 @@ class App extends Component {
   componentDidMount() {
     console.log("componentDidMount <App />");
 
-    this.handleMessage(this.socket);
-    // var socket = io.connect();
-    // this.socket = this.socket.connect();
-    this.socket.on('textMessage', function(chatMessage) {
-      console.log("Message Received: " + chatMessage);
+    this.initialMessage(this.socket);
+    
+    // this.socket.on('textMessage', function(chatMessage) {
+    //   console.log("before receiveMessage");
+    //   this.receiveMessage(chatMessage);
+    //   console.log("after receiveMessage");
+
+    // });
+    this.socket.on('textMessage', (chatMessage) => {
+      console.log("before receiveMessage");
+      this.receiveMessage(chatMessage);
+      console.log("after receiveMessage");
     });
   }
 
@@ -268,7 +275,7 @@ class App extends Component {
       <div>
         <ul id="messages"></ul>
         <Login handleUserLogin={this.handleUserLogin} />
-        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages} sendMessage={this.sendMessage}/>
+        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages} sendMessage={this.sendMessage} newestMessage={this.state.newestMessage} />
       </div>
     );
   }

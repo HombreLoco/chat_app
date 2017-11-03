@@ -18,7 +18,7 @@ class NewMessageFeed extends Component {
 
     return (
       <div>
-        YES!!!
+        {this.props.newestMessage}
       </div>
     );
   }

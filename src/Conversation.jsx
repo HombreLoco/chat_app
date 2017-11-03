@@ -37,7 +37,7 @@ class Conversation extends Component {
         </div>
         <div className="conversationMessages">
           {outputMessages}
-          <NewMessageFeed />
+          <NewMessageFeed newestMessage={this.props.newestMessage} />
         </div>
         <NewMessage sendMessage={this.props.sendMessage}/>
       </div>

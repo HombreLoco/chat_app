@@ -44,7 +44,7 @@ class UserDetails extends Component {
     if (this.props.user.friends.length > 0) {
       friendList = this.props.user.friends.map( friend => {
         let friendInfo = this.props.getUserById(friend);
-        friendListRoutes.push(<Route path={`/conversation/${friendInfo.id}`} key={friendInfo.id} component={() => (<Conversation user={this.props.user} friend={friendInfo} getConversationMessages={this.props.getConversationMessages} sendMessage={this.props.sendMessage}/>)} />)
+        friendListRoutes.push(<Route path={`/conversation/${friendInfo.id}`} key={friendInfo.id} component={() => (<Conversation user={this.props.user} friend={friendInfo} getConversationMessages={this.props.getConversationMessages} sendMessage={this.props.sendMessage} newestMessage={this.props.newestMessage} />)} />)
         return (
           <li key={friendInfo.id}>
             <Link to={`/conversation/${friendInfo.id}`}>{friendInfo.username}</Link>
