@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import NewMessageFeed from './NewMessageFeed.jsx';
 import NewMessage from './NewMessage.jsx';
 
 class Conversation extends Component {
@@ -36,8 +37,9 @@ class Conversation extends Component {
         </div>
         <div className="conversationMessages">
           {outputMessages}
+          <NewMessageFeed />
         </div>
-        <NewMessage />
+        <NewMessage sendMessage={this.props.sendMessage}/>
       </div>
     );
   }

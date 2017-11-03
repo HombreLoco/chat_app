@@ -11,7 +11,13 @@ class App extends Component {
       user: {
         id: "",
         username: "",
-        friends: []
+        friends: [],
+        rooms: [
+          {
+            friendId: "",
+            socketId: ""
+          }
+        ]
       },
       allUsers: [
         {
@@ -230,7 +236,7 @@ class App extends Component {
 
   sendMessage = (chatSocket, chatMessage) => {
     console.log("Currently in sendMessage function");
-    chatSocket.emit('textMessage', chatMessage);
+    this.socket.emit('textMessage', chatMessage);
     // set value of current chat message to "" (empty string)
   }
 
@@ -262,7 +268,7 @@ class App extends Component {
       <div>
         <ul id="messages"></ul>
         <Login handleUserLogin={this.handleUserLogin} />
-        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages}/>
+        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages} sendMessage={this.sendMessage}/>
       </div>
     );
   }
