@@ -14,7 +14,12 @@ class NewMessage extends Component {
 
   sendNewMessage = () => {
     console.log("in sendNewMessage");
-    this.props.sendMessage("", this.state.value);
+    let message = {
+      sender: this.props.user.id,
+      receiver: this.props.friend.id,
+      content: this.state.value
+    }
+    this.props.sendMessage("", message);
     this.setState({value: ""});
   }
 

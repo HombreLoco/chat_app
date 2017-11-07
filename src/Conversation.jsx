@@ -19,6 +19,7 @@ class Conversation extends Component {
     let outputMessages;
     const messages = this.props.getConversationMessages(this.props.user.id, this.props.friend.id);
     if (messages.length > 0) {
+      
       outputMessages = messages.map( message => {
         if (message.sender === this.props.user.id) {
           return (<div key={message.id}><div className="floatRight">{message.content}</div><div className="clearFloat"></div></div>);
@@ -37,9 +38,8 @@ class Conversation extends Component {
         </div>
         <div className="conversationMessages">
           {outputMessages}
-          <NewMessageFeed newestMessage={this.props.newestMessage} />
         </div>
-        <NewMessage sendMessage={this.props.sendMessage}/>
+        <NewMessage sendMessage={this.props.sendMessage} user={this.props.user} friend={this.props.friend}/>
       </div>
     );
   }

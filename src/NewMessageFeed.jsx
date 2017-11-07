@@ -18,7 +18,9 @@ class NewMessageFeed extends Component {
 
     return (
       <div>
-        {this.props.newestMessage}
+        Sender: {this.props.newestMessage.sender}
+        Receiver: {this.props.newestMessage.receiver}
+        Message: {this.props.newestMessage.content}
       </div>
     );
   }

@@ -8,7 +8,6 @@ class App extends Component {
     super(props);
     this.socket = io("http://localhost:3030");
     this.state = {
-      newestMessage: "",
       user: {
         id: "",
         username: "",
@@ -42,7 +41,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "Hello 2",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -50,7 +49,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "Hey there 1",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -58,7 +57,7 @@ class App extends Component {
           sender: "1",
           receiver: "3",
           content: "Yeah dawg",
-          time: "just now",
+          createDate: "just now",
           roomId: "2"
         },
         {
@@ -66,7 +65,7 @@ class App extends Component {
           sender: "1",
           receiver: "3",
           content: "Just livin'",
-          time: "just now",
+          createDate: "just now",
           roomId: "2"
         },
         {
@@ -74,7 +73,7 @@ class App extends Component {
           sender: "3",
           receiver: "1",
           content: "chicken wings",
-          time: "just now",
+          createDate: "just now",
           roomId: "2"
         },
         {
@@ -82,7 +81,7 @@ class App extends Component {
           sender: "4",
           receiver: "1",
           content: "Anybody out there?",
-          time: "just now",
+          createDate: "just now",
           roomId: "3"
         },
         {
@@ -90,7 +89,7 @@ class App extends Component {
           sender: "2",
           receiver: "4",
           content: "Sneaky Dee's Pub",
-          time: "just now",
+          createDate: "just now",
           roomId: "4"
         },
         {
@@ -98,7 +97,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -106,7 +105,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -114,7 +113,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -122,7 +121,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -130,7 +129,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -138,7 +137,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -146,7 +145,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -154,7 +153,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -162,7 +161,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -170,7 +169,7 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -178,7 +177,7 @@ class App extends Component {
           sender: "1",
           receiver: "2",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         },
         {
@@ -186,20 +185,30 @@ class App extends Component {
           sender: "2",
           receiver: "1",
           content: "TEST STRING",
-          time: "just now",
+          createDate: "just now",
           roomId: "1"
         }
       ]
     };
   }
 
-  logUserIn = (user) => {
+  connectionSetupMessage = () => {
+    console.log("Currently in connectionSetupMessage function");
+    let userInfo = {
+      userId: this.state.user.id
+    }
+    this.socket.emit('connectionSetup', userInfo);
+  }
+
+  logUserIn = (tempUser) => {
     console.log("Currently in logUserIn");
-    // this.state.user.id = user.id;
-    // this.state.user.username = user.username;
-    // this.state.user.friends = user.friends;
-    this.setState({user: user});
-    console.log("user: ", this.state.user);
+    console.log("user: ", tempUser);
+    this.state.user = tempUser;
+    this.setState({user: this.state.user});
+    // do i need to manually close the old socket
+    this.socket.close();
+    this.socket = io("http://localhost:3030");
+    this.connectionSetupMessage();
   }
 
   findUserInDB = (username) => {
@@ -219,6 +228,34 @@ class App extends Component {
     }
   }
 
+  getUserData = (friendId) => {
+    this.state.allUsers.forEach((user) => {
+      if (user.id === friendId) {
+        return {
+          id: friendId,
+          username: user.username
+        };
+      }
+    });
+  }
+
+  // getFriendsList = (userId) => {
+  //   this.state.allUsers.forEach((user) => {
+  //     if (user.id === this.state.user.id) {
+  //       return user.friends;
+  //     }
+  //   });
+  // }
+
+  createUserFriendList = (userId) => {
+    // let tempList = this.getFriendsList(userId);
+
+    this.state.user.friends.forEach((friend) => {
+        let userFriend = this.getUserData(friend);
+        this.state.user.friends.push(userFriend);
+    });
+  }
+
   getConversationMessages = (sender, receiver) => {
     let messageList = [];
     this.state.messageList.forEach(function(message) {
@@ -231,18 +268,15 @@ class App extends Component {
 
   receiveMessage = (chatMessage) => {
     console.log("Currently in receiveMessage function");
-    this.setState({newestMessage: chatMessage});
+    console.log("chatMessage: ", chatMessage);
+    this.state.messageList.push(chatMessage);
+    this.setState({messageList: this.state.messageList});
   }
 
   sendMessage = (chatSocket, chatMessage) => {
     console.log("Currently in sendMessage function");
     this.socket.emit('textMessage', chatMessage);
     // set value of current chat message to "" (empty string)
-  }
-
-  initialMessage = (chatMessage) => {
-    console.log("Currently in initialMessage function");
-    this.socket.emit('textMessage', "HELLO ALL CHAT");
   }
 
   handleUserLogin = (currentUserLogin) => {
@@ -254,14 +288,6 @@ class App extends Component {
   componentDidMount() {
     console.log("componentDidMount <App />");
 
-    this.initialMessage(this.socket);
-    
-    // this.socket.on('textMessage', function(chatMessage) {
-    //   console.log("before receiveMessage");
-    //   this.receiveMessage(chatMessage);
-    //   console.log("after receiveMessage");
-
-    // });
     this.socket.on('textMessage', (chatMessage) => {
       console.log("before receiveMessage");
       this.receiveMessage(chatMessage);
@@ -275,7 +301,7 @@ class App extends Component {
       <div>
         <ul id="messages"></ul>
         <Login handleUserLogin={this.handleUserLogin} />
-        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages} sendMessage={this.sendMessage} newestMessage={this.state.newestMessage} />
+        <UserDetails user={this.state.user} getUserById={this.getUserById} getConversationMessages={this.getConversationMessages} sendMessage={this.sendMessage} />
       </div>
     );
   }

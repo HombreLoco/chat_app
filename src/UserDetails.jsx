@@ -12,23 +12,7 @@ class UserDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    // this.createFriendList = this.createFriendList.bind(this);
   }
-
-  // createFriendList = (friendList, friendListRoutes) => {
-  //   console.log("Currently in createFriendList function");
-  //   if (this.props.user.friends.length > 0) {
-  //     friendList = this.props.user.friends.map( friend => {
-  //       let friendInfo = this.props.getUserById(friend);
-  //       friendListRoutes.push(<Route path={'hi'} key={friendInfo.id} component={() => (<Conversation conversation={''} />)} />)
-  //       return (
-  //         <li key={friendInfo.id}>
-  //           <Link to={`hi`}>{friendInfo.username}</Link>
-  //         </li>
-  //       )
-  //     });
-  //   }
-  // }
 
   componentDidMount() {
     console.log("componentDidMount <UserDetails />");
