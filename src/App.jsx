@@ -274,7 +274,6 @@ class App extends Component {
   }
 
   sendMessage = (chatSocket, chatMessage) => {
-    console.log("Currently in sendMessage function");
     this.socket.emit('textMessage', chatMessage);
     // set value of current chat message to "" (empty string)
   }
@@ -282,7 +281,6 @@ class App extends Component {
   handleUserLogin = (currentUserLogin) => {
     console.log("Currently in handleUserLogin function");
     this.findUserInDB(currentUserLogin);
-
   }
 
   componentDidMount() {
